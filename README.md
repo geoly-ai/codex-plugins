@@ -1,10 +1,10 @@
-# Geoly — Codex plugin marketplace
+# GEOly — Codex plugin marketplace
 
-Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **Geoly**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI).
+Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **GEOly**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI).
 
-This repo packages the **Geoly MCP server** + the **`geoly-mcp` skill** into one installable Codex plugin. It is a *self-hosted* marketplace — it is **not** OpenAI's official Plugin Directory (self-serve publishing to that directory is "coming soon" per OpenAI; until then this repo is the distribution channel).
+This repo packages the **GEOly MCP server** + the **`geoly-mcp` skill** into one installable Codex plugin. It is a *self-hosted* marketplace — it is **not** OpenAI's official Plugin Directory (self-serve publishing to that directory is "coming soon" per OpenAI; until then this repo is the distribution channel).
 
-> Intended home: a public repo `geoly-ai/codex-plugins`. The plugin connects to the hosted Geoly MCP endpoint, so users need a Geoly account; OAuth runs at install time.
+> Intended home: a public repo `geoly-ai/codex-plugins`. The plugin connects to the hosted GEOly MCP endpoint, so users need a GEOly account; OAuth runs at install time.
 
 ---
 
@@ -21,7 +21,7 @@ codex plugin marketplace list
 #    @geoly is the marketplace slug, used to disambiguate same-named plugins.
 codex plugin add geoly-mcp@geoly
 
-# 4) On install (policy.authentication = ON_INSTALL) Codex opens the Geoly OAuth
+# 4) On install (policy.authentication = ON_INSTALL) Codex opens the GEOly OAuth
 #    browser flow — sign in / authorize, and the geoly MCP tools become available.
 codex plugin list
 ```
@@ -69,13 +69,13 @@ The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right t
 
 ## Requirements & notes
 
-- **Geoly account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
+- **GEOly account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
 - **Single-org context recommended.** A user-level token spanning ≥2 orgs enters `multi-org` mode, which is read-only and disables the public/industry tool set. Pass a single org if you need those tools.
 - **Hosted, no local server.** The plugin points at `https://app.geoly.ai/api/mcp` (streamable HTTP + OAuth); nothing runs on your machine.
 
 ---
 
-## Maintainer notes (Geoly team)
+## Maintainer notes (GEOly team)
 
 This is a standalone repo. Clone it as a **sibling** of the `geoly-ai/geoly-app` repo:
 

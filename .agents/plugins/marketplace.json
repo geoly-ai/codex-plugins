@@ -1,7 +1,7 @@
 {
   "name": "geoly",
   "interface": {
-    "displayName": "Geoly"
+    "displayName": "GEOly"
   },
   "plugins": [
     {
