@@ -35,7 +35,10 @@
     "websiteURL": "https://www.geoly.ai/",
     "privacyPolicyURL": "https://www.geoly.ai/privacy",
     "termsOfServiceURL": "https://www.geoly.ai/terms",
-    "defaultPrompt": "Use Geoly to report on AI brand visibility: pull brand overview, citation/mention rates, Share of Model, and competitor or category intelligence.",
+    "defaultPrompt": [
+      "Use Geoly to report on AI brand visibility: pull brand overview, citation and mention rates, and Share of Model.",
+      "Use Geoly to compare competitors or find category whitespace and brand momentum."
+    ],
     "brandColor": "#111111",
     "composerIcon": "./assets/geoly-icon.png",
     "logo": "./assets/geoly.png",

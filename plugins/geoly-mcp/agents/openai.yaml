@@ -1,7 +1,0 @@
-interface:
-  display_name: "Geoly"
-  short_description: "Report on AI brand visibility (GEO) via the Geoly MCP server"
-  default_prompt: "Use Geoly to report on AI brand visibility: pull brand overview, citation/mention rates, Share of Model, and competitor or category intelligence."
-  icon_small: "./assets/geoly-icon.png"
-  icon_large: "./assets/geoly.png"
-  brand_color: "#111111"

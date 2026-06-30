@@ -96,13 +96,12 @@ Bump `plugins/geoly-mcp/.codex-plugin/plugin.json` `version` (semver) on each re
 codex-plugins/
 ├── .agents/plugins/marketplace.json     # marketplace catalog (fixed path)
 └── plugins/geoly-mcp/
-    ├── .codex-plugin/plugin.json        # plugin manifest (fixed subdir)
+    ├── .codex-plugin/plugin.json        # plugin manifest (fixed subdir; interface = plugin metadata)
     ├── .mcp.json                        # remote MCP server (OAuth)
-    ├── agents/openai.yaml               # plugin-level UI metadata
     ├── assets/                          # icons / logos
     └── skills/geoly-mcp/                # ← synced copy of geoly-app/geoly-mcp/
         ├── SKILL.md
         ├── CHANGELOG.md
-        ├── agents/openai.yaml           # skill-level metadata + MCP dependency
+        ├── agents/openai.yaml           # skill-level adapter: metadata + policy + MCP dependency
         └── references/
 ```
