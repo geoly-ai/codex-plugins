@@ -3,7 +3,7 @@ name: geoly-mcp
 description: "Use when querying or reporting on AI brand visibility through the GEOly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: GEOly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
 metadata:
   author: geoly
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # GEOly MCP
@@ -17,6 +17,19 @@ on plan, mode, and write profile) across two surfaces:
 
 The data is correct; **most mistakes are caliber mistakes** (mixing aggregations of the same
 metric name) or **flow mistakes** (calling a brand tool before resolving which brand).
+
+## If the GEOly tools aren't available in this session
+
+If the GEOly MCP tools (e.g. `list_brands`, `get_brand_overview`) are **not** in your available
+tool list, the server is configured but not connected to *this* session — almost always because
+the session started before the server was authenticated. **Do not** call the endpoint by hand: a
+raw HTTP request without the stored OAuth token returns `401`, which is expected, not a real auth
+failure. Instead, tell the user:
+
+> The GEOly tools load when your client starts. Fully restart your MCP client and open a **new**
+> session, then try again. In Codex specifically: completely quit and reopen the app — a new
+> conversation in the already-running app is not enough (a fresh `codex exec` also loads them).
+> The connection is already authorized; a clean restart mounts the tools.
 
 ## Core Principles
 

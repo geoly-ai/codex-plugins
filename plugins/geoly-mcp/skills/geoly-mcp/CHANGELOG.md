@@ -2,6 +2,14 @@
 
 All notable changes to the `geoly-mcp` agent skill.
 
+## 0.1.1
+
+- `SKILL.md`: add a "tools not available in this session" note — when the skill is loaded but
+  the GEOly MCP tools are not mounted, tell the user to fully restart their MCP client / open a
+  new session (tools load at client startup; a raw call without the OAuth token is a red-herring
+  401). Avoids the agent flailing with manual HTTP probes.
+- Brand display rebranded Geoly → GEOly; `SKILL.md` links the brand to https://www.geoly.ai.
+
 ## 0.1.0
 
 - Initial release. Mirrors the skills.sh / Anthropic Agent Skills layout
