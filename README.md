@@ -77,14 +77,22 @@ The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right t
 
 ## Maintainer notes (Geoly team)
 
+This is a standalone repo. Clone it as a **sibling** of the `geoly-ai/geoly-app` repo:
+
+```bash
+git clone https://github.com/geoly-ai/codex-plugins.git ../geoly-codex-plugins
+```
+
 The skill content under `plugins/geoly-mcp/skills/geoly-mcp/` is a **copy** of the canonical source `geoly-mcp/` in the `geoly-ai/geoly-app` repo. Do not hand-edit it here — edit the source and re-sync:
 
 ```bash
-# from the geoly-app repo root
+# from the geoly-app repo root (defaults to ../geoly-codex-plugins)
 node scripts/build-codex-plugin.mjs
+# or pass an explicit path / set CODEX_PLUGIN_REPO
+node scripts/build-codex-plugin.mjs /path/to/geoly-codex-plugins
 ```
 
-That script mirrors `geoly-app/geoly-mcp/{SKILL.md,CHANGELOG.md,references/**}` into this plugin and reports any drift.
+That script mirrors `geoly-app/geoly-mcp/{SKILL.md,CHANGELOG.md,references/**}` into this plugin and reports any drift. Then `git commit && git push` here.
 
 Bump `plugins/geoly-mcp/.codex-plugin/plugin.json` `version` (semver) on each release and tag the repo so users can `--ref` pin.
 
