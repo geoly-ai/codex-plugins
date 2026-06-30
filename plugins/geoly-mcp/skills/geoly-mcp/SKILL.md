@@ -1,14 +1,14 @@
 ---
 name: geoly-mcp
-description: "Use when querying or reporting on AI brand visibility through the Geoly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: Geoly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
+description: "Use when querying or reporting on AI brand visibility through the GEOly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: GEOly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
 metadata:
   author: geoly
   version: "0.1.0"
 ---
 
-# Geoly MCP
+# GEOly MCP
 
-Geoly tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini,
+[GEOly](https://www.geoly.ai) tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini,
 Perplexity, Grok, Google AI). The MCP server exposes **up to 61 tools** (the exact set depends
 on plan, mode, and write profile) across two surfaces:
 
@@ -22,7 +22,7 @@ metric name) or **flow mistakes** (calling a brand tool before resolving which b
 
 **1. The KPI baseline is `get_brand_overview`.**
 Its `aigvr.{score,mentionRate,citationRate}` are the headline numbers and match what the
-customer sees in the Geoly app. Quote these for any "what is our citation/mention/visibility
+customer sees in the GEOly app. Quote these for any "what is our citation/mention/visibility
 rate" question. Nothing else is the headline.
 
 **2. Never arithmetic-average a daily series.**

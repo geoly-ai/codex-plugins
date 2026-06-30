@@ -1,4 +1,4 @@
-# Geoly MCP — public / industry intelligence tools (23)
+# GEOly MCP — public / industry intelligence tools (23)
 
 _Use this when doing cross-brand work (leaderboards, whitespace, momentum, AI-search demand, perception, shopping) or anything involving the locale convention._
 

@@ -1,8 +1,8 @@
-# Geoly metrics — calibers, definitions & data-shape pitfalls
+# GEOly metrics — calibers, definitions & data-shape pitfalls
 
 _Use this when quoting any rate/score, reconciling two numbers that disagree, building a trend, or hitting a row/date/rate limit._
 
-The Geoly numbers are correct. **Most reporting mistakes come from mixing calibers of
+The GEOly numbers are correct. **Most reporting mistakes come from mixing calibers of
 the same metric name, not from missing data.** This file is the authority on which
 number to quote. When in doubt, the headline KPI always comes from `get_brand_overview`.
 
@@ -53,7 +53,7 @@ prompt-level breakdowns instead of re-deriving from raw citations.
 ## 3. Golden rules (apply every time)
 
 1. **KPI baseline = `get_brand_overview`.** Its `aigvr.{score,mentionRate,citationRate}`
-   are the headline numbers and match what the customer sees in the Geoly app. Quote these
+   are the headline numbers and match what the customer sees in the GEOly app. Quote these
    for any "what is our citation/mention/visibility rate" question. Nothing else is the headline.
 2. **Never arithmetic-average a daily series.** `query_analytics` / `get_brand_citations_daily`
    give **per-day** rates. For a window number use `get_brand_overview`, the `recordCitationRate`

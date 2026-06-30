@@ -1,8 +1,8 @@
-# Geoly MCP — full tool catalog (up to 61 tools)
+# GEOly MCP — full tool catalog (up to 61 tools)
 
 _Use this when you need a tool's exact parameters/enums/defaults, or to confirm whether a tool is exposed over MCP._
 
-Ground-truth catalog of the tools the Geoly MCP server **registers**. This is the MCP surface
+Ground-truth catalog of the tools the GEOly MCP server **registers**. This is the MCP surface
 — several internal agent tools exist in the codebase but are NOT exposed over MCP (see
 § Not on MCP). Availability depends on **mode** and **plan**:
 

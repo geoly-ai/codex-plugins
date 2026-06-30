@@ -1,6 +1,6 @@
 # GEOly — Codex plugin marketplace
 
-Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **GEOly**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI).
+Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **[GEOly](https://www.geoly.ai)**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI).
 
 This repo packages the **GEOly MCP server** + the **`geoly-mcp` skill** into one installable Codex plugin. It is a *self-hosted* marketplace — it is **not** OpenAI's official Plugin Directory (self-serve publishing to that directory is "coming soon" per OpenAI; until then this repo is the distribution channel).
 
@@ -69,7 +69,7 @@ The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right t
 
 ## Requirements & notes
 
-- **GEOly account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
+- **[GEOly](https://www.geoly.ai) account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
 - **Single-org context recommended.** A user-level token spanning ≥2 orgs enters `multi-org` mode, which is read-only and disables the public/industry tool set. Pass a single org if you need those tools.
 - **Hosted, no local server.** The plugin points at `https://app.geoly.ai/api/mcp` (streamable HTTP + OAuth); nothing runs on your machine.
 
@@ -113,3 +113,7 @@ codex-plugins/
         ├── agents/openai.yaml           # skill-level adapter: metadata + policy + MCP dependency
         └── references/
 ```
+
+---
+
+**GEOly** · AI brand visibility (GEO) · [www.geoly.ai](https://www.geoly.ai)
