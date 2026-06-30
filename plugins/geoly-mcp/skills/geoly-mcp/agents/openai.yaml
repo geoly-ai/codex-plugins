@@ -1,0 +1,19 @@
+interface:
+  display_name: "Geoly MCP"
+  short_description: "Pick the right Geoly tool, follow org/brand discovery, and quote the correct KPI caliber"
+  default_prompt: "Use $geoly-mcp when querying or reporting on AI brand visibility through the Geoly MCP server."
+
+policy:
+  allow_implicit_invocation: true
+
+# 把远程 MCP server 显式绑给本 skill。value 必须等于 ../../.mcp.json 里的 server key "geoly"。
+# 注意: 这是 developers.openai.com 文档定义、但官方示例仓库未实际使用的 schema(docs-only)。
+# 若真机发现 Codex 不识别此块、或与插件级 mcpServers 自动注册重复, 可整段删除——
+# server 仍由 .mcp.json 注册, skill 仍可调用。这是首要回退点。
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "geoly"
+      description: "Geoly MCP server — AI brand visibility (GEO) tools"
+      transport: "streamable_http"
+      url: "https://app.geoly.ai/api/mcp"

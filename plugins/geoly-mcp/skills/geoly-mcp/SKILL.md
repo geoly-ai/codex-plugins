@@ -1,0 +1,163 @@
+---
+name: geoly-mcp
+description: "Use when querying or reporting on AI brand visibility through the Geoly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: Geoly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
+metadata:
+  author: geoly
+  version: "0.1.0"
+---
+
+# Geoly MCP
+
+Geoly tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini,
+Perplexity, Grok, Google AI). The MCP server exposes **up to 61 tools** (the exact set depends
+on plan, mode, and write profile) across two surfaces:
+
+- **Self / brand-own** — the customer's own monitoring, audits, GA4, and write actions.
+- **Public / industry** — cross-brand competitive intelligence (Grow tier and above).
+
+The data is correct; **most mistakes are caliber mistakes** (mixing aggregations of the same
+metric name) or **flow mistakes** (calling a brand tool before resolving which brand).
+
+## Core Principles
+
+**1. The KPI baseline is `get_brand_overview`.**
+Its `aigvr.{score,mentionRate,citationRate}` are the headline numbers and match what the
+customer sees in the Geoly app. Quote these for any "what is our citation/mention/visibility
+rate" question. Nothing else is the headline.
+
+**2. Never arithmetic-average a daily series.**
+`query_analytics` / `get_brand_citations_daily` return **per-day** rates; averaging them
+over-weights low-volume days and will NOT match the headline. For a window number, use
+`get_brand_overview`, the `recordCitationRate` metric, or re-aggregate daily rows **weighted by
+`completedRecords`**. The same name `citationRate` has three legitimate calibers — see
+references/metric-calibers.md.
+
+**3. A gap in a daily line means "no monitoring ran that day", not a missing metric.**
+Read `completedRecords` per row (0 or absent = no collection). AIGVR, mentionRate and
+citationRate share one daily denominator, so they always have identical date coverage.
+
+**4. Verify the caliber before you quote a number.**
+mention ≠ citation; AIGVR ≠ Share of Model; record-rate ≠ URL counts; competitor tools
+(`get_competitor_overview`, `get_platform_matrix`) are record-weighted, never the headline. If
+two numbers disagree, it is almost always a caliber/window/platform mismatch — reconcile, don't
+guess.
+
+**5. Resolve the brand before calling brand tools.**
+In multi-brand / multi-org mode, call `list_brands` (and first `list_organizations`) and pass
+`brand_id`. If a brand tool errors asking which brand, run the discovery tools first.
+
+**6. Recover from errors, don't loop.**
+A `402` / "subscription inactive" or a missing `get_public_*` tool is a gating signal, not a
+transient error — check mode, subscription, and plan tier before retrying. Respect truncation
+markers (`_truncated`/`_shownCount` on brand tools; a plain-text `[truncated …]` marker on
+public/report tools) and paginate (`currentPage == totalPages`) instead of assuming completeness.
+
+## Connection & access (what affects your calls)
+
+- **Auth**: the client sends `Authorization: Bearer geom_…`. The token maps to a user and the
+  orgs they can access.
+- **Mode → discovery flow** (decides whether brand tools need a `brand_id`):
+  - **single** (one org, one brand, or brand-bound token) → brand tools auto-resolve; just call them.
+  - **multi-brand** (one org, many brands) → first `list_brands`, then pass `brand_id`.
+  - **multi-org** (several orgs) → first `list_organizations`, then `list_brands`, then pass IDs.
+- **Subscription gate**: single-org / single-brand context returns **HTTP 402** at entry if the
+  subscription is inactive. Multi-org validates **per target org at call time** and fails that
+  org's tool call with an error message (not a 402).
+- **Public tools** require a **Grow-tier-or-above** plan (`grow | advanced | plus | enterprise`)
+  in **single-org** context. If `get_public_*` / `compare_public_brands` / `get_category_*`
+  aren't available, the org lacks the tier or an active entitlement.
+- **Writes** (`create_prompt`, `create_topic`, `create_competitor`, `trigger_prompt`) require the
+  server to run with `?tool_profile=standard` (or `admin`); default is read-only.
+  `trigger_prompt` **consumes credits**.
+- **Dates**: call `get_current_date` before building date ranges; `query_analytics` ranges ≤ 366 days.
+
+## Tool selection — question → tool
+
+### Self / brand-own
+| You want… | Use |
+|---|---|
+| Headline KPI (AIGVR / mention / citation rate, whole window) | `get_brand_overview` |
+| Daily/weekly **trend** of those metrics | `get_brand_citations_daily` |
+| A topic / text-defined **subset** daily series | `query_analytics` dataset=`topic_citations_daily` (+ `prompt_text_include/exclude`) |
+| Per-prompt visibility; search/list prompts | `get_prompt_list` (per-prompt rate in `geoMetrics.aigvr.citationRate`) |
+| One prompt's full detail (per-platform, SoM, competitors) | `get_prompt_detail` |
+| The actual **citation URLs / sources** for a prompt | `get_prompt_citations` (`deduplicate=true` for a source list) |
+| "Which queries never mention us" (blind spots) | `get_prompt_mention_rates` |
+| Citation **domain distribution / ownership** | `get_citation_overview` (counts URLs, not records) |
+| One domain / one page deep-dive | `get_domain_detail` / `get_page_detail` / `get_url_reference_detail` |
+| Content gaps for a domain | `get_content_opportunities` |
+| Standing **vs competitors** | `get_competitor_overview` / `get_platform_matrix` (record-weighted — not headline) |
+| How AI *describes* the brand (verbatim) | `get_brand_mention_samples`; vs rivals → `get_competitor_cooccurrence` |
+| Topic-level analysis (and to enumerate topics) | `get_topic_analytics` (pass `topic_ids`, or read its rows) — there is no `get_topic_list` over MCP |
+| Sentiment | `get_sentiment_dashboard` |
+| Site AI-readiness audit | `get_audit_list` → `get_audit_detail` |
+| Traffic (if GA4 connected) | `get_ga4_traffic_data` / `get_ga4_page_data` |
+
+> `display_data` / `display_chart` and `web_search` / `fetch_page` are **in-app agent only** —
+> not exposed over MCP. MCP results are plain JSON (no `_ref`).
+
+### Public / industry (Grow tier and above)
+| You want… | Use |
+|---|---|
+| Resolve a brand/category/topic name → IDs | `search_public_entities` |
+| Category leaderboard / who leads | `get_public_category` view=`brand_leaderboard` |
+| Where to invest (winnable topics) | `get_category_whitespace` |
+| Who's gaining/losing share | `get_category_brand_momentum` |
+| What AI is being asked in our space | `get_public_search_queries` → `get_public_search_query_detail` |
+| Compare 2–4 brands head-to-head | `compare_public_brands` (country+language **required**) |
+| How AI perceives a brand | `get_public_brand_perception` → `…_aspect_mentions` |
+| Is a topic worth targeting | `get_topic_competition_difficulty` |
+| Bridge my brand → public dataset | `resolve_my_brand_public` |
+
+Cross-ref rule: for record counts/rates use `get_brand_overview` (not `get_citation_overview`,
+which counts URLs); for trends use `get_brand_citations_daily` (not by paginating citations).
+
+## Recipes
+
+**KPI baseline (always start here)**
+```json
+{ "tool": "get_brand_overview", "args": { "time_range": "30d" } }
+```
+Read `aigvr.citationRate` / `aigvr.mentionRate` / `aigvr.score` — the report headline.
+
+**Honest daily trend**
+```json
+{ "tool": "get_brand_citations_daily",
+  "args": { "start_date": "2026-05-28", "end_date": "2026-06-26" } }
+```
+Plot as-is; treat absent days as "no collection" (check `completedRecords`). For a window value,
+weight daily rates by `completedRecords` — don't simple-average.
+
+**Citation sources for a prompt**
+```json
+{ "tool": "get_prompt_citations",
+  "args": { "prompt_id": "<id>", "deduplicate": true, "limit": 500 } }
+```
+
+**Text-defined subset (e.g. non-branded), 3-metric daily series**
+```json
+{ "tool": "query_analytics",
+  "args": { "dataset": "topic_citations_daily", "dimensions": ["date"],
+            "metrics": ["aigvr","mentionRate","citationRate"],
+            "prompt_text_exclude": "<brandword>",
+            "start_date": "2026-05-28", "end_date": "2026-06-26" } }
+```
+
+**Competitive: where can we win a category**
+```json
+{ "tool": "search_public_entities", "args": { "query": "<my brand or category>" } }
+```
+→ `get_category_whitespace` with the resolved `product_space_id` + `public_brand_id`; act on the
+`prioritize` / `gap` buckets.
+
+## Reference Guides
+
+- **Metric calibers, glossary & limits** → [references/metric-calibers.md](references/metric-calibers.md)
+  **MUST read when** quoting any rate/score, reconciling two numbers that disagree, building a
+  trend, or hitting a row/date/rate limit.
+- **Full tool catalog (all registered tools + parameters)** → [references/tools-catalog.md](references/tools-catalog.md)
+  **MUST read when** you need a tool's exact parameters/enums/defaults, or to confirm whether a
+  tool is exposed over MCP.
+- **Public / industry competitive-intelligence tools** → [references/public-tools.md](references/public-tools.md)
+  **MUST read when** doing cross-brand work (leaderboards, whitespace, momentum, AI-search
+  demand, perception, shopping) or anything involving the locale convention.

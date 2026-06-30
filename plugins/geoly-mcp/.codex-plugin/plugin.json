@@ -1,0 +1,45 @@
+{
+  "name": "geoly-mcp",
+  "version": "0.1.0",
+  "description": "Query and report on AI brand visibility (GEO) through the Geoly MCP server: citation rate, mention rate, AIGVR, Share of Model, competitor and category intelligence across ChatGPT, Gemini, Perplexity, Grok, and Google AI.",
+  "author": {
+    "name": "Geoly",
+    "url": "https://www.geoly.ai/"
+  },
+  "homepage": "https://app.geoly.ai/",
+  "repository": "https://github.com/geoly-ai/codex-plugins",
+  "license": "MIT",
+  "keywords": [
+    "geoly",
+    "geo",
+    "generative-engine-optimization",
+    "ai-visibility",
+    "brand-monitoring",
+    "share-of-model",
+    "citation-rate",
+    "competitive-intelligence"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Geoly",
+    "shortDescription": "Report on AI brand visibility (GEO) via the Geoly MCP server",
+    "longDescription": "Geoly tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI). This plugin connects Codex to the Geoly MCP server so you can pull brand overviews, citation and mention rates, AIGVR and Share of Model, daily trends, competitor and category whitespace/momentum, and audit data — while quoting the correct KPI caliber.",
+    "developerName": "Geoly",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://www.geoly.ai/",
+    "privacyPolicyURL": "https://www.geoly.ai/privacy",
+    "termsOfServiceURL": "https://www.geoly.ai/terms",
+    "defaultPrompt": "Use Geoly to report on AI brand visibility: pull brand overview, citation/mention rates, Share of Model, and competitor or category intelligence.",
+    "brandColor": "#111111",
+    "composerIcon": "./assets/geoly-icon.png",
+    "logo": "./assets/geoly.png",
+    "logoDark": "./assets/geoly-dark.png",
+    "screenshots": []
+  }
+}

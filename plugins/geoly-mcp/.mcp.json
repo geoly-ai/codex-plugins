@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "geoly": {
+      "type": "http",
+      "url": "https://app.geoly.ai/api/mcp",
+      "oauth_resource": "https://app.geoly.ai/api/mcp"
+    }
+  }
+}
