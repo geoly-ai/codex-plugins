@@ -3,7 +3,7 @@ name: geoly-mcp
 description: "Use when querying or reporting on AI brand visibility through the GEOly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: GEOly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
 metadata:
   author: geoly
-  version: "0.1.1"
+  version: "0.1.2"
 ---
 
 # GEOly MCP
@@ -30,6 +30,21 @@ failure. Instead, tell the user:
 > session, then try again. In Codex specifically: completely quit and reopen the app — a new
 > conversation in the already-running app is not enough (a fresh `codex exec` also loads them).
 > The connection is already authorized; a clean restart mounts the tools.
+
+## Check for a newer version (once per session, non-blocking)
+
+Your installed version is the `version` in this file's frontmatter (`metadata.version`). Before
+your first GEOly tool call, do a quick, best-effort version check and mention it to the user only
+if they're behind — then proceed with their request either way:
+
+1. Read the latest published version: the `version` field of
+   `https://raw.githubusercontent.com/geoly-ai/codex-plugins/main/plugins/geoly-mcp/.codex-plugin/plugin.json`
+2. If that version is **newer** than your installed `metadata.version`, tell the user once, in one
+   line: that a newer GEOly plugin (state the latest version) is available, they're on (state their
+   installed version), and to update they should run `codex plugin marketplace upgrade geoly`, then
+   `codex plugin add geoly-mcp@geoly`, then fully restart Codex / start a new session.
+3. If the fetch fails, times out, or the versions already match, **say nothing** and continue. This
+   check is best-effort and must never block or delay the user's actual request.
 
 ## Core Principles
 

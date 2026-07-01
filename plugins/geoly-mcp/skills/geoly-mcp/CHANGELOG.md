@@ -2,6 +2,12 @@
 
 All notable changes to the `geoly-mcp` agent skill.
 
+## 0.1.2
+
+- `SKILL.md`: add a once-per-session, non-blocking **version check** — the agent compares its
+  installed `metadata.version` against the latest published `version` (raw `plugin.json` on the
+  repo) and nudges the user to upgrade if behind. Best-effort; skips silently if unreachable.
+
 ## 0.1.1
 
 - `SKILL.md`: add a "tools not available in this session" note — when the skill is loaded but

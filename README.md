@@ -42,8 +42,14 @@ codex plugin marketplace add geoly-ai/codex-plugins --ref v0.1.0   # branch or t
 
 ### Upgrade / remove / troubleshoot
 
+Plugins do **not** auto-update, and `marketplace upgrade` alone is **not** enough — it refreshes the
+catalog but not your already-installed copy. Getting a new version takes three steps:
+
 ```bash
-codex plugin marketplace upgrade geoly   # pull newer commits from this repo
+codex plugin marketplace upgrade geoly   # 1. pull newer commits from this repo (refresh the catalog)
+codex plugin add geoly-mcp@geoly         # 2. REQUIRED: reinstall to copy the updated plugin into the cache
+# 3. Fully quit and relaunch Codex / start a new session — MCP tools + skill load at process start
+
 codex plugin remove geoly-mcp            # uninstall the plugin
 codex plugin marketplace remove geoly    # unregister this marketplace
 
