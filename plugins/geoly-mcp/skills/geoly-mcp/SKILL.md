@@ -101,8 +101,11 @@ public/report tools) and paginate (`currentPage == totalPages`) instead of assum
 
 ## Connection & access (what affects your calls)
 
-- **Auth**: the client sends `Authorization: Bearer geom_…`. The token maps to a user and the
-  orgs they can access.
+- **Auth**: the client connects to `https://app.geoly.ai/api/mcp` (URL only) and authorizes via
+  OAuth in the browser on first use — the user picks the org and read/write scope on the consent
+  screen. The authorization maps to a user and the orgs they can access. A legacy read-only
+  `Authorization: Bearer geom_…` static token is still accepted for headless/CI. You may pin a
+  single org with `?org_id=<id>` (takes precedence over the consent org scope).
 - **Mode → discovery flow** (decides whether brand tools need a `brand_id`):
   - **single** (one org, one brand, or brand-bound token) → brand tools auto-resolve; just call them.
   - **multi-brand** (one org, many brands) → first `list_brands`, then pass `brand_id`.
@@ -114,8 +117,8 @@ public/report tools) and paginate (`currentPage == totalPages`) instead of assum
   in **single-org** context. If `get_public_*` / `compare_public_brands` / `get_category_*`
   aren't available, the org lacks the tier or an active entitlement.
 - **Writes** (`create_prompt`, `create_topic`, `create_competitor`, `trigger_prompt`) require the
-  server to run with `?tool_profile=standard` (or `admin`); default is read-only.
-  `trigger_prompt` **consumes credits**.
+  **standard** (write) profile, chosen on the OAuth consent screen; the default is read-only, and
+  the legacy `geom_` static token is always read-only. `trigger_prompt` **consumes credits**.
 - **Dates**: call `get_current_date` before building date ranges; `query_analytics` ranges ≤ 366 days.
 
 ## Tool selection — question → tool
