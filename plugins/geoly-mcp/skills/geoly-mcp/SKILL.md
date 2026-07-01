@@ -3,7 +3,7 @@ name: geoly-mcp
 description: "Use when querying or reporting on AI brand visibility through the GEOly MCP server — picking the right tool, following the org/brand discovery flow, quoting the correct KPI caliber, and avoiding metric-definition pitfalls. Triggers: GEOly; GEO / AI-visibility reporting; citation rate, mention rate, AIGVR, Share of Model; daily trends; competitor, category whitespace, brand momentum; any call to get_brand_overview / query_analytics / get_prompt_* / get_citation_* / compare_public_brands / get_category_* / get_public_* tools."
 metadata:
   author: geoly
-  version: "0.1.3"
+  version: "0.1.4"
 ---
 
 # GEOly MCP
@@ -18,18 +18,37 @@ on plan, mode, and write profile) across two surfaces:
 The data is correct; **most mistakes are caliber mistakes** (mixing aggregations of the same
 metric name) or **flow mistakes** (calling a brand tool before resolving which brand).
 
-## If the GEOly tools aren't available in this session
+## If the GEOly tools aren't available in this session (pre-flight auto-authorize)
 
 If the GEOly MCP tools (e.g. `list_brands`, `get_brand_overview`) are **not** in your available
-tool list, the server is configured but not connected to *this* session — almost always because
-the session started before the server was authenticated. **Do not** call the endpoint by hand: a
-raw HTTP request without the stored OAuth token returns `401`, which is expected, not a real auth
-failure. Instead, tell the user:
+tool list — or a call fails to connect — the `geoly` server is registered but not usable in *this*
+session, usually for one of two reasons: it was **never authenticated** (Codex shows an **Authenticate /
+进行身份验证** button next to `geoly` under *Settings → MCP servers*), or the session **started
+before** it was authenticated. Fix it **proactively** — don't make the user hunt for the button,
+and do **not** probe the endpoint by hand (a raw HTTP request without the stored OAuth token
+returns `401`, which is expected and proves nothing). Run this pre-flight, in order:
 
-> The GEOly tools load when your client starts. Fully restart your MCP client and open a **new**
-> session, then try again. In Codex specifically: completely quit and reopen the app — a new
-> conversation in the already-running app is not enough (a fresh `codex exec` also loads them).
-> The connection is already authorized; a clean restart mounts the tools.
+1. **Open the sign-in window for them.** Run the shell command `codex mcp login geoly`. For this
+   OAuth (streamable-HTTP) server that starts the GEOly OAuth flow and opens the authorization page
+   in the browser, so the user signs in with their GEOly account instead of hunting for the
+   Authenticate button. (If a valid, unexpired login already exists, it usually completes without
+   prompting for a new sign-in.) This command **blocks until the user finishes signing in** in the
+   browser, so a slow return is normal — don't treat waiting as failure. They will still need to
+   restart Codex (step 2) before the tools appear.
+   - Only if you **cannot** run shell commands here, `codex` isn't on the PATH, or there is no
+     browser available (headless): tell the user to click **Authenticate / 进行身份验证** next to
+     `geoly` in **Settings → MCP servers**.
+2. **Mount the tools.** GEOly's tools load at client startup, so after authorizing the user must
+   fully **quit and reopen Codex** and start a **new** session — a new conversation in the
+   still-running app is not enough (a fresh `codex exec` also loads them). Only then do
+   `get_brand_overview` and the rest appear.
+3. **If they still don't appear** after authorizing and a full restart, it's a client-side loading
+   issue on Codex's side, not a GEOly problem — some Codex Desktop builds authenticate the server
+   but never import its tools into the session. Have the user try the **Codex CLI** (`codex exec`,
+   or a fresh CLI session), which is not affected by this Desktop import bug and generally mounts
+   the tools after a fresh session.
+
+Once the tools are mounted, continue with the user's request.
 
 ## Check for a newer version (once per session, non-blocking)
 

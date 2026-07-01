@@ -59,6 +59,12 @@ codex mcp logout geoly                   # clear stored OAuth credentials
 codex mcp list                           # list configured MCP servers
 ```
 
+> **Auto-authorize (v0.1.4+):** the bundled skill now detects when the GEOly tools aren't mounted
+> and runs `codex mcp login geoly` for you to open the OAuth window — you no longer have to find the
+> **Authenticate / 进行身份验证** button under *Settings → MCP servers*. After you sign in, fully
+> restart Codex and start a new session to mount the tools. (On Codex Desktop, if the tools still
+> don't appear after a restart, use the Codex CLI — it mounts OAuth MCP tools reliably.)
+
 ---
 
 ## What you get

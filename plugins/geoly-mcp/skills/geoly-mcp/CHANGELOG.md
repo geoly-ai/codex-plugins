@@ -2,6 +2,18 @@
 
 All notable changes to the `geoly-mcp` agent skill.
 
+## 0.1.4
+
+- `SKILL.md`: turn the "tools not available" note into a **pre-flight auto-authorize** flow. When
+  the GEOly MCP tools are missing (server registered but showing an *Authenticate / 进行身份验证*
+  button), the agent now proactively runs `codex mcp login geoly` to open the OAuth sign-in window
+  for the user — instead of telling them to hunt for the button — falling back to the
+  *Settings → MCP servers* button only when the shell is unavailable. It then guides the full
+  restart that mounts the tools, and notes the Codex Desktop case where tools may authenticate but
+  not import (use the CLI). Covers both causes (never authenticated / session started pre-auth).
+  The browser sign-in itself is still completed by the user once — credentials aren't auto-entered —
+  and existing installs only pick this up after the 3-step plugin upgrade and a full restart.
+
 ## 0.1.3
 
 - `.mcp.json`: tag the remote MCP connection with `http_headers`
