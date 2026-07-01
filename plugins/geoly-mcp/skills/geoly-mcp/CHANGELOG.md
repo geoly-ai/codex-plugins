@@ -2,6 +2,13 @@
 
 All notable changes to the `geoly-mcp` agent skill.
 
+## 0.1.3
+
+- `.mcp.json`: tag the remote MCP connection with `http_headers`
+  (`X-Client-Name: geoly-codex-plugin`, `X-Client-Version`) so server-side logs can
+  attribute traffic to the Codex plugin. Counting must be **deduplicated by user/org**,
+  never by raw request — see `docs/mcp/CODEX_PLUGIN_DISTRIBUTION.md`.
+
 ## 0.1.2
 
 - `SKILL.md`: add a once-per-session, non-blocking **version check** — the agent compares its
