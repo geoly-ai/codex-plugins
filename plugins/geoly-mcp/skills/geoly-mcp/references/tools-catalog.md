@@ -1,4 +1,4 @@
-# GEOly MCP — full tool catalog (up to 61 tools)
+# GEOly MCP — full tool catalog (up to 62 tools)
 
 _Use this when you need a tool's exact parameters/enums/defaults, or to confirm whether a tool is exposed over MCP._
 
@@ -135,12 +135,15 @@ These read cross-topic public citation-source data and need no brand context.
 
 ---
 
-## J. Public / industry tools (23) — Grow tier and above, single-org only
+## J. Public / industry tools (24) — Grow tier and above, single-org only
 
-The cross-brand competitive-intelligence surface. Full playbook + locale convention in
-[public-tools.md](./public-tools.md). Quick index (all 23):
+The cross-brand competitive-intelligence surface. Full playbook + locale/platform conventions
+in [public-tools.md](./public-tools.md). Most data tools accept an optional `platform` (default
+`chatgpt`) — discover valid platforms per scope with `get_available_platforms`. Quick index
+(all 24):
 
-**Resolve & browse**: `search_public_entities`, `list_public_topics`, `list_public_locales`
+**Resolve & browse**: `search_public_entities`, `list_public_topics`, `list_public_locales`,
+`get_available_platforms`
 **Topic**: `get_public_topic_overview`, `get_public_topic_brand_leaderboard`,
 `get_public_topic_som_trend`, `get_public_topic_prompt_matrix`, `get_public_topic_prompt_detail`,
 `get_public_topic_record_detail`, `get_public_topic_citation_domains`, `get_public_topic_commerce`,
@@ -165,8 +168,8 @@ A single brand-bound, read-only, lower-tier token sees far fewer.
 | Discovery selectors (`list_brands`, `list_organizations`) — multi-brand/org only | 2 |
 | Write (`tool_profile=standard+`) | 4 |
 | Report (user-scoped) | 2 |
-| Public / industry (Grow+) | 23 |
-| **Max total** | **61** |
+| Public / industry (Grow+) | 24 |
+| **Max total** | **62** |
 
 > The read-only 30 includes `get_discovered_links`, which is **inert over MCP** (its source
 > tool `fetch_page` is in-app only) — so 29 are functionally useful. Display sections A–J above

@@ -1,4 +1,4 @@
-# GEOly MCP — public / industry intelligence tools (23)
+# GEOly MCP — public / industry intelligence tools (24)
 
 _Use this when doing cross-brand work (leaderboards, whitespace, momentum, AI-search demand, perception, shopping) or anything involving the locale convention._
 
@@ -34,21 +34,41 @@ Most public responses are wrapped as:
 - If `defaulted=true`, tell the user the data is the fallback locale, then offer to re-run with
   a locale from `availableLocales`.
 
+## Platform convention (read this too)
+
+Public facts are sliced by AI **platform** (`chatgpt`, `google_ai`, …). Almost every
+data-returning public tool takes an **optional `platform`** param that **defaults to
+`chatgpt`** — so if you omit it you see ChatGPT-only numbers, which under-reports total AI
+visibility once other platforms have data.
+
+- **Discover first**: call `get_available_platforms` for the scope you're about to query
+  (brand / topic / category / global). It returns platforms ordered by data volume. If only
+  `[chatgpt]` comes back, that scope has no other-platform data yet — **omit `platform`**.
+- Only pass a non-`chatgpt` `platform` (e.g. `google_ai`) when `get_available_platforms`
+  actually lists it; passing a platform with no data yields an empty result (no graceful
+  fallback on the MCP path).
+- **Exceptions** (no `platform` param): `search_public_entities` and `list_public_locales`
+  (platform-agnostic discovery), `get_topic_competition_difficulty` (difficulty is a
+  cross-platform concentration metric), `get_public_topic_record_detail` (a single record
+  already belongs to exactly one platform). `get_public_topic_brand_leaderboard` also accepts
+  a legacy `platform_id` alias — prefer `platform`.
+
 ## IDs: how to get them
 
 Start from a name/domain, not an ID. `search_public_entities` resolves free text → brand /
-category / topic IDs and slugs. Then use the typed tool. `list_public_topics` and
-`list_public_locales` help enumerate.
+category / topic IDs and slugs. Then use the typed tool. `list_public_topics`,
+`list_public_locales` and `get_available_platforms` help enumerate.
 
 ---
 
-## 1. Resolve & browse (3)
+## 1. Resolve & browse (4)
 
 | Tool | Purpose | Key params |
 |---|---|---|
 | `search_public_entities` | Free-text resolver: brand / category / topic name or domain → public IDs + slugs | `query (2–120 chars), limit (1–20, default 6)` |
-| `list_public_topics` | Browse/paginate public topics, optional status/search filter | `page, page_size (1–100), country, language, status: draft\|active\|rejected\|archived, search` |
+| `list_public_topics` | Browse/paginate public topics, optional status/search filter | `page, page_size (1–100), country, language, status: draft\|active\|rejected\|archived, search, platform` |
 | `list_public_locales` | List valid `{country, language}` pairs for an entity | `entity_kind: content\|brand\|topic_slug\|product_space, entity_id` |
+| `get_available_platforms` | **Discovery**: which AI platforms have data for a scope (call before passing `platform`) — ordered by volume, `[0]` = default | `scope: brand\|topic\|category\|global (default global), brand_id, topic_id, product_space_id, country, language` |
 
 ---
 
@@ -57,7 +77,7 @@ category / topic IDs and slugs. Then use the typed tool. `list_public_topics` an
 | Tool | Purpose | Key params |
 |---|---|---|
 | `get_public_topic_overview` | Overview of one public topic | `topic_id \| slug, country, language` |
-| `get_public_topic_brand_leaderboard` | Brand leaderboard ranked by Share of Mention (absolute 1-based rank) | `topic_id, platform_id, date_from, date_to, page, page_size (1–100)` |
+| `get_public_topic_brand_leaderboard` | Brand leaderboard ranked by Share of Mention (absolute 1-based rank) | `topic_id, platform (legacy alias: platform_id), date_from, date_to, page, page_size (1–100)` |
 | `get_public_topic_som_trend` | Daily SoM trend (tracks #1 leader by default, or a specific `brand_known_id`) | `topic_id, brand_known_id, date_from, date_to, max_points (2–90)` |
 | `get_public_topic_prompt_matrix` | Prompt × brand heatmap (per-prompt SoM %) | `topic_id, top_brands (1–20), max_prompts (1–200)` |
 | `get_public_topic_prompt_detail` | One prompt: metadata, per-brand breakdown, recent records w/ snippets, top citation domains | `prompt_id, record_limit (1–50), citation_limit (1–50)` |
@@ -147,6 +167,10 @@ category / topic IDs and slugs. Then use the typed tool. `list_public_topics` an
 
 - **Separate pipeline**: do not reconcile public numbers against the self-surface
   (`get_brand_overview`) — different collection, possibly different cadence.
+- **Platform defaulting**: every data tool defaults to `platform=chatgpt`. Numbers are
+  ChatGPT-only unless you discover other platforms via `get_available_platforms` and pass
+  `platform` explicitly. When a scope has multiple platforms, say which platform a figure is
+  for; don't imply it's all of AI.
 - **Locale defaulting**: always check `defaulted`; surface it.
 - **Truncation**: public responses cap at ~120k chars (`[truncated: …narrow your query]`).
   Narrow by topic/locale/date or paginate.

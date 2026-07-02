@@ -2,6 +2,30 @@
 
 All notable changes to the `geoly-mcp` agent skill.
 
+## 0.2.0
+
+- **GEOly CLI section (agent bootstrap).** The tool surface now has a terminal projection
+  ([geoly-ai/GEOly-Cli](https://github.com/geoly-ai/GEOly-Cli)) built for agents. New SKILL.md
+  section teaches: when to prefer the CLI over MCP calls (loops / large exports / CI), the
+  zero-interaction install commands (curl / Windows PowerShell irm, with GitHub mirror), lazy
+  auth semantics (no login step — first `geoly call` opens the browser; slow return is normal;
+  `GEOLY_TOKEN` for CI), the probe-first usage pattern (`geoly tools --json` → `geoly schema`
+  → `geoly call`), stable exit codes, and the Windows env-var gotcha.
+
+## 0.1.5
+
+- **Platform dimension across the public tools.** Public facts are sliced by AI platform
+  (`chatgpt`, `google_ai`, …). 18 public tools gained an optional `platform` param (default
+  `chatgpt`); `get_public_topic_brand_leaderboard` now takes canonical `platform` with
+  `platform_id` kept as a deprecated alias. A new **`get_available_platforms`** discovery tool
+  returns which platforms actually have data for a scope (brand / topic / category / global),
+  so the agent discovers before passing `platform` and avoids ChatGPT-only under-reporting once
+  Google AI Mode data lands. `references/public-tools.md` (now 24 tools) adds a Platform
+  convention section + a defaulting caveat; `references/tools-catalog.md` and `SKILL.md` bump
+  the max surface to 62. Tools with no meaningful platform slice are intentionally excluded
+  (`search_public_entities`, `list_public_locales`, `get_topic_competition_difficulty`,
+  `get_public_topic_record_detail`).
+
 ## 0.1.4
 
 - `SKILL.md`: turn the "tools not available" note into a **pre-flight auto-authorize** flow. When
