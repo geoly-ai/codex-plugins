@@ -69,7 +69,7 @@ codex mcp list                           # list configured MCP servers
 
 ## What you get
 
-`geoly-mcp` exposes up to ~61 MCP tools (the exact set depends on your plan, org membership, and write profile), covering:
+`geoly-mcp` exposes up to 66 MCP tools (the exact set depends on your plan, org membership, and write profile), covering:
 
 - **Your brand (authenticated):** `get_brand_overview`, `query_analytics`, `get_prompt_list` / `get_prompt_detail` / `get_prompt_citations` / `get_prompt_mention_rates`, `get_citation_overview`, `get_competitor_overview`, `get_platform_matrix`, `get_topic_analytics`, `get_audit_list`, …
 - **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, `get_public_brand_perception`, `compare_public_brands`, `get_topic_competition_difficulty`, …
@@ -82,7 +82,7 @@ The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right t
 ## Requirements & notes
 
 - **[GEOly](https://www.geoly.ai) account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
-- **Single-org context recommended.** A user-level token spanning ≥2 orgs enters `multi-org` mode, which is read-only and disables the public/industry tool set. Pass a single org if you need those tools.
+- **Multi-org behavior.** A user-level authorization spanning ≥2 orgs enters `multi-org` mode: always **read-only** (write grants are clamped), but the public/industry tool set IS available as long as any accessible org is Grow-tier+. Pin one org (`?org_id=`) only if you need write tools.
 - **Hosted, no local server.** The plugin points at `https://app.geoly.ai/api/mcp` (streamable HTTP + OAuth); nothing runs on your machine.
 
 ---
@@ -106,7 +106,11 @@ node scripts/build-codex-plugin.mjs /path/to/geoly-codex-plugins
 
 That script mirrors `geoly-app/geoly-mcp/{SKILL.md,CHANGELOG.md,references/**}` into this plugin and reports any drift. Then `git commit && git push` here.
 
-Bump `plugins/geoly-mcp/.codex-plugin/plugin.json` `version` (semver) on each release and tag the repo so users can `--ref` pin.
+Bump **both** `plugins/geoly-mcp/.codex-plugin/plugin.json` `version` (semver) **and**
+`plugins/geoly-mcp/.mcp.json` `http_headers.X-Client-Version` on each release (they must
+match — the server compares the header against the latest plugin.json to decide upgrade
+nags; 0.2.0/0.2.1 skipped the header and every up-to-date user got a false "plugin
+outdated" notice), and tag the repo so users can `--ref` pin.
 
 **Before announcing, run the on-device checklist** in `geoly-app/docs/mcp/CODEX_PLUGIN_DISTRIBUTION.md` (OAuth auto-trigger on install, `oauth_resource` value, `dependencies.tools` recognition, public-tool gating).
 
