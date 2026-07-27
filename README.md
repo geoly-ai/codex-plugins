@@ -1,6 +1,6 @@
 # GEOly — Codex plugin marketplace
 
-Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **[GEOly](https://www.geoly.ai)**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Gemini, Perplexity, Grok, Google AI).
+Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **[GEOly](https://www.geoly.ai)**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Perplexity, Google AI Mode, Google AI Overview, Gemini, Copilot).
 
 This repo packages the **GEOly MCP server** + the **`geoly-mcp` skill** into one installable Codex plugin. It is a *self-hosted* marketplace — it is **not** OpenAI's official Plugin Directory (self-serve publishing to that directory is "coming soon" per OpenAI; until then this repo is the distribution channel).
 
