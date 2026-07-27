@@ -69,7 +69,7 @@ codex mcp list                           # list configured MCP servers
 
 ## What you get
 
-`geoly-mcp` exposes up to 66 MCP tools (the exact set depends on your plan, org membership, and write profile), covering:
+`geoly-mcp` exposes up to 67 MCP tools (the exact set depends on your plan, org membership, and write profile), covering:
 
 - **Your brand (authenticated):** `get_brand_overview`, `query_analytics`, `get_prompt_list` / `get_prompt_detail` / `get_prompt_citations` / `get_prompt_mention_rates`, `get_citation_overview`, `get_competitor_overview`, `get_platform_matrix`, `get_topic_analytics`, `get_audit_list`, …
 - **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, `get_public_brand_perception`, `compare_public_brands`, `get_topic_competition_difficulty`, …
