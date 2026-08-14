@@ -36,8 +36,8 @@ Inside a Codex session you can use the slash-command equivalents:
 ### Pin a version
 
 ```bash
-codex plugin marketplace add geoly-ai/codex-plugins --ref v0.1.0   # branch or tag
-# session slash form:  /plugin marketplace add geoly-ai/codex-plugins#v0.1.0
+codex plugin marketplace add geoly-ai/codex-plugins --ref v0.4.1   # branch or tag
+# session slash form:  /plugin marketplace add geoly-ai/codex-plugins#v0.4.1
 ```
 
 ### Upgrade / remove / troubleshoot
@@ -69,11 +69,11 @@ codex mcp list                           # list configured MCP servers
 
 ## What you get
 
-`geoly-mcp` exposes up to 67 MCP tools (the exact set depends on your plan, org membership, and write profile), covering:
+`geoly-mcp` exposes up to 68 MCP tools (the exact set depends on your plan, org membership, and write grants), covering:
 
 - **Your brand (authenticated):** `get_brand_overview`, `query_analytics`, `get_prompt_list` / `get_prompt_detail` / `get_prompt_citations` / `get_prompt_mention_rates`, `get_citation_overview`, `get_competitor_overview`, `get_platform_matrix`, `get_topic_analytics`, `get_audit_list`, …
-- **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, `get_public_brand_perception`, `compare_public_brands`, `get_topic_competition_difficulty`, …
-- **Write actions (require an interactive `standard`/`admin` profile):** `create_prompt`, `create_topic`, `create_competitor`, `trigger_prompt` (consumes credits).
+- **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, `get_public_brand_rank_citation`, `get_public_brand_perception`, `compare_public_brands`, `get_topic_competition_difficulty`, …
+- **Write actions (require explicit OAuth write grants):** `create_prompt`, `create_topic`, `create_competitor`, `trigger_prompt`.
 
 The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right tool, follow the org/brand discovery flow, and quote the correct KPI caliber (citation rate, mention rate, AIGVR, Share of Model).
 
