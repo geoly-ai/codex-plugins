@@ -16,4 +16,4 @@ dependencies:
       value: "geoly"
       description: "GEOly MCP server — AI brand visibility (GEO) tools"
       transport: "streamable_http"
-      url: "https://app.geoly.ai/api/mcp"
+      url: "https://app.geoly.ai/api/mcp/v1"

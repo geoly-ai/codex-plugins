@@ -2,7 +2,7 @@
   "mcpServers": {
     "geoly": {
       "type": "http",
-      "url": "https://app.geoly.ai/api/mcp",
+      "url": "https://app.geoly.ai/api/mcp/v1",
       "oauth_resource": "https://app.geoly.ai/api/mcp",
       "http_headers": {
         "X-Client-Name": "geoly-codex-plugin",

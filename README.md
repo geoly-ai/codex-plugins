@@ -83,7 +83,7 @@ The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right t
 
 - **[GEOly](https://www.geoly.ai) account required.** After OAuth you need an active subscription; **public/industry tools require a Grow+ plan**. Free/basic users can authenticate but some tools return `402` or are hidden.
 - **Multi-org behavior.** A user-level authorization spanning ≥2 orgs enters `multi-org` mode: always **read-only** (write grants are clamped), but the public/industry tool set IS available as long as any accessible org is Grow-tier+. Pin one org (`?org_id=`) only if you need write tools.
-- **Hosted, no local server.** The plugin points at `https://app.geoly.ai/api/mcp` (streamable HTTP + OAuth); nothing runs on your machine.
+- **Hosted, no local server.** The plugin points at `https://app.geoly.ai/api/mcp/v1` (GEOly MCP v1, streamable HTTP + OAuth); nothing runs on your machine. The unversioned `https://app.geoly.ai/api/mcp` serves the same v1 surface and stays available for existing configs; the OAuth resource stays `https://app.geoly.ai/api/mcp` (a path prefix of v1), so already-authorized installs keep their token.
 
 ---
 
