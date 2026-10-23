@@ -1,6 +1,6 @@
 # GEOly — Codex plugin marketplace
 
-Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **[GEOly](https://www.geoly.ai)**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Perplexity, Google AI Mode, Google AI Overview, Gemini, Copilot).
+Self-hosted [OpenAI Codex](https://developers.openai.com/codex) plugin marketplace for **[GEOly](https://www.geoly.ai)**, the GEO (Generative Engine Optimization) platform that tracks how brands are mentioned and cited across AI engines (ChatGPT, Google AI Mode, Google AI Overview, Gemini, Copilot).
 
 This repo packages the **GEOly MCP server** + the **`geoly-mcp` skill** into one installable Codex plugin. It is a *self-hosted* marketplace — it is **not** OpenAI's official Plugin Directory (self-serve publishing to that directory is "coming soon" per OpenAI; until then this repo is the distribution channel).
 
@@ -69,11 +69,11 @@ codex mcp list                           # list configured MCP servers
 
 ## What you get
 
-`geoly-mcp` exposes up to 68 MCP tools (the exact set depends on your plan, org membership, and write grants), covering:
+`geoly-mcp` exposes up to 55 MCP tools (the exact set depends on your plan, org membership, and write grants; a read-only multi-org connection sees 48), covering:
 
-- **Your brand (authenticated):** `get_brand_overview`, `query_analytics`, `get_prompt_list` / `get_prompt_detail` / `get_prompt_citations` / `get_prompt_mention_rates`, `get_citation_overview`, `get_competitor_overview`, `get_platform_matrix`, `get_topic_analytics`, `get_audit_list`, …
-- **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, `get_public_brand_rank_citation`, `get_public_brand_perception`, `compare_public_brands`, `get_topic_competition_difficulty`, …
-- **Write actions (require explicit OAuth write grants):** `create_prompt`, `create_topic`, `create_competitor`, `trigger_prompt`.
+- **Your brand (authenticated):** `get_brand_overview`, `get_daily_trend`, `get_prompt_list` / `get_prompt_detail` / `get_prompt_citations`, `get_citation_overview`, `get_competitor_list`, `get_platform_matrix`, `get_verdict`, `get_topic_analytics`, `get_audit_list`, …
+- **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_topic`, `get_public_brand`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, …
+- **Write actions (require explicit OAuth write grants):** `create_prompt`, `create_topic`, `create_competitor`, `create_brand`, `trigger_prompt`, `archive_prompt`, `update_prompt_tags`, `move_prompts_to_topic`.
 
 The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right tool, follow the org/brand discovery flow, and quote the correct KPI caliber (citation rate, mention rate, AIGVR, Share of Model).
 
@@ -95,7 +95,7 @@ This is a standalone repo. Clone it as a **sibling** of the `geoly-ai/geoly-app`
 git clone https://github.com/geoly-ai/codex-plugins.git ../geoly-codex-plugins
 ```
 
-The skill content under `plugins/geoly-mcp/skills/geoly-mcp/` is a **copy** of the canonical source `geoly-mcp/` in the `geoly-ai/geoly-app` repo. Do not hand-edit it here — edit the source and re-sync:
+The skill content under `plugins/geoly-mcp/skills/geoly-mcp/` is a **copy** of the canonical source `skills/geoly-mcp/` in the `geoly-ai/geoly-app` repo. Do not hand-edit it here — edit the source and re-sync:
 
 ```bash
 # from the geoly-app repo root (defaults to ../geoly-codex-plugins)
@@ -104,7 +104,7 @@ node scripts/build-codex-plugin.mjs
 node scripts/build-codex-plugin.mjs /path/to/geoly-codex-plugins
 ```
 
-That script mirrors `geoly-app/geoly-mcp/{SKILL.md,CHANGELOG.md,references/**}` into this plugin and reports any drift. Then `git commit && git push` here.
+That script mirrors `geoly-app/skills/geoly-mcp/{SKILL.md,CHANGELOG.md,references/**}` into this plugin and reports any drift. Then `git commit && git push` here.
 
 Bump **both** `plugins/geoly-mcp/.codex-plugin/plugin.json` `version` (semver) **and**
 `plugins/geoly-mcp/.mcp.json` `http_headers.X-Client-Version` on each release (they must
@@ -123,7 +123,7 @@ codex-plugins/
     ├── .codex-plugin/plugin.json        # plugin manifest (fixed subdir; interface = plugin metadata)
     ├── .mcp.json                        # remote MCP server (OAuth)
     ├── assets/                          # icons / logos
-    └── skills/geoly-mcp/                # ← synced copy of geoly-app/geoly-mcp/
+    └── skills/geoly-mcp/                # ← synced copy of geoly-app/skills/geoly-mcp/
         ├── SKILL.md
         ├── CHANGELOG.md
         ├── agents/openai.yaml           # skill-level adapter: metadata + policy + MCP dependency
