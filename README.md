@@ -75,7 +75,7 @@ codex mcp list                           # list configured MCP servers
 - **Public / industry intelligence (Grow+ plan):** `search_public_entities`, `get_public_topic`, `get_public_brand`, `get_public_category`, `get_category_whitespace`, `get_category_brand_momentum`, …
 - **Write actions (require explicit OAuth write grants):** `create_prompt`, `create_topic`, `create_competitor`, `create_brand`, `trigger_prompt`, `archive_prompt`, `update_prompt_tags`, `move_prompts_to_topic`.
 
-The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right tool, follow the org/brand discovery flow, and quote the correct KPI caliber (citation rate, mention rate, AIGVR, Share of Model).
+The bundled skill (`SKILL.md` + `references/`) teaches Codex to pick the right tool, follow the org/project discovery flow, and quote the correct KPI caliber (citation rate, mention rate, AIGVR, Share of Model).
 
 ---
 

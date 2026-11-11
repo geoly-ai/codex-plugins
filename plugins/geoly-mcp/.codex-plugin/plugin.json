@@ -1,6 +1,6 @@
 {
   "name": "geoly-mcp",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Query and report on AI brand visibility (GEO) through the GEOly MCP server: citation rate, mention rate, AIGVR, Share of Model, competitor and category intelligence across ChatGPT, Google AI Mode, Google AI Overview, and Gemini.",
   "author": {
     "name": "GEOly",
